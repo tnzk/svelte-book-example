@@ -1,25 +1,21 @@
 // @ts-nocheck
-import { readFileSync } from 'fs';
+
 import { addToCart, loadCart } from '$lib/server/cart';
+import { loadProducts } from '$lib/server/product';
 
-function loadProducts() {
-	const content = readFileSync('data/products.json', { encoding: 'utf-8' });
-	return JSON.parse(content);
-}
-
-function getProductFromDatabase(productId) {
-	const products = loadProducts();
+async function getProductFromDatabase(productId) {
+	const products = await loadProducts();
 	return products.find((product) => productId === product.id);
 }
 
-function getRelatedProductsFromDatabase(productId) {
-	const products = loadProducts();
+async function getRelatedProductsFromDatabase(productId) {
+	const products = await loadProducts();
 	return products.filter((product) => productId !== product.id);
 }
 
-export function load({ params }) {
+export async function load({ params }) {
 	const productId = params.id;
-	const product = getProductFromDatabase(productId);
+	const product = await getProductFromDatabase(productId);
 	const relatedProducts = getRelatedProductsFromDatabase(productId);
 	const cart = loadCart();
 

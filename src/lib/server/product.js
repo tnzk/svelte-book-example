@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { database } from './mongodb';
 
-async function loadProducts() {
+export async function loadProducts() {
 	const products = await database.collection('products').find();
 	return await products.toArray();
 }

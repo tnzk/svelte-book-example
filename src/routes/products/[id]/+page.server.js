@@ -16,8 +16,8 @@ async function getRelatedProductsFromDatabase(productId) {
 export async function load({ params }) {
 	const productId = params.id;
 	const product = await getProductFromDatabase(productId);
-	const relatedProducts = getRelatedProductsFromDatabase(productId);
-	const cart = loadCart();
+	const relatedProducts = await getRelatedProductsFromDatabase(productId);
+	const cart = await loadCart();
 
 	return { product, relatedProducts, cart };
 }
@@ -25,6 +25,6 @@ export async function load({ params }) {
 export const actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
-		addToCart(data.get('productId'));
+		await addToCart(data.get('productId'));
 	}
 };

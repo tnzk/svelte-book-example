@@ -1,0 +1,42 @@
+[
+  {
+    "id": "svelte-guide",
+    "name": "Svelte Guide",
+    "price": 3500,
+    "images": [
+      "https://via.placeholder.com/300x424/8080ff/ffffff?text=image%201",
+      "https://via.placeholder.com/300x424/80ff80/ffffff?text=image%202",
+      "https://via.placeholder.com/300x424/ff8080/ffffff?text=image%203"
+    ]
+  },
+  {
+    "id": "react-guide",
+    "name": "React Guide",
+    "price": 3500,
+    "images": [
+      "https://via.placeholder.com/300x424/8080ff/ffffff?text=image%201",
+      "https://via.placeholder.com/300x424/80ff80/ffffff?text=image%202",
+      "https://via.placeholder.com/300x424/ff8080/ffffff?text=image%203"
+    ]
+  },
+  {
+    "id": "vue-guide",
+    "name": "Vue Guide",
+    "price": 3500,
+    "images": [
+      "https://via.placeholder.com/300x424/8080ff/ffffff?text=image%201",
+      "https://via.placeholder.com/300x424/80ff80/ffffff?text=image%202",
+      "https://via.placeholder.com/300x424/ff8080/ffffff?text=image%203"
+    ]
+  },
+  {
+    "id": "angular-guide",
+    "name": "Angular Guide",
+    "price": 3500,
+    "images": [
+      "https://via.placeholder.com/300x424/8080ff/ffffff?text=image%201",
+      "https://via.placeholder.com/300x424/80ff80/ffffff?text=image%202",
+      "https://via.placeholder.com/300x424/ff8080/ffffff?text=image%203"
+    ]
+  }
+]

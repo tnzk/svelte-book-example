@@ -1,12 +1,9 @@
 // @ts-nocheck
-import { redirect } from '@sveltejs/kit';
-import { deleteSession } from '$lib/server/session';
+import { json } from '@sveltejs/kit';
 
-export async function GET({ cookies }) {
-	const sessionId = cookies.get('svelte_ec_session');
-	if (sessionId) {
-		await deleteSession(sessionId);
-		cookies.delete('svelte_ec_session', { path: '/' });
+export async function GET({ locals }) {
+	if (!locals.currentUser) {
+		return json(null);
 	}
-	throw redirect(302, '/products/svelte-guide');
+	return json({ email: locals.currentUser.email });
 }

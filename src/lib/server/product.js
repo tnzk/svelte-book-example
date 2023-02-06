@@ -1,9 +1,9 @@
 // @ts-nocheck
-import { readFileSync } from 'fs';
+import { database } from './mongodb';
 
-function loadProducts() {
-	const content = readFileSync('data/products.json', { encoding: 'utf-8' });
-	return JSON.parse(content);
+async function loadProducts() {
+	const products = await database.collection('products').find();
+	return await products.toArray();
 }
 
 export async function getRecommends(baseId) {

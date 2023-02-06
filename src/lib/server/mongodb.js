@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { env } from '$env/dynamic/private';
+import { building } from '$app/environment';
 
-// @ts-ignore
-export const client = new MongoClient(env.MONGODB_URI);
+export const client = building ? { db: () => {} } : new MongoClient(env.MONGODB_URI);
 export const database = client.db();

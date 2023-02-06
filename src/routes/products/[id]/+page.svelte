@@ -30,7 +30,6 @@
             ゲストさん <a href="/login">ログイン</a>
           {/if}
         {/await}
-        <a href="/login">ログイン</a></li>
       <li>
         <a href="/cart">カート (0)</a>
       </li>

@@ -3,19 +3,36 @@
   import { page } from '$app/stores';
 	import { afterNavigate } from '$app/navigation';
   import Slider from '../../Slider.svelte';
+  import { onMount } from 'svelte';
+  import { enhance } from '$app/forms';
+
 
 	export let data;
-	let { product, relatedProducts, cart } = data;
+	let cart = [];
+	let cartOpen = false;
+	let { product, relatedProducts } = data;
 	let recommendRequest = new Promise(() => {});
 	let userRequest = new Promise(() => {});
 
   afterNavigate(() => {
 		product = data.product;
 		relatedProducts = data.relatedProducts;
-    cart = data.cart;
 		recommendRequest = fetch(`/api/recommend?id=${product.id}`).then((res) => res.json());
 		userRequest = fetch('/api/self').then((res) => res.json());
 	});
+
+  onMount(() => {
+		loadCart();
+	});
+
+	async function loadCart() {
+		cart = await fetch('/api/cart').then((res) => res.json());
+	}
+
+	function toggleCart() {
+		cartOpen = !cartOpen;
+	}
+
 </script>
 
 <svelte:head>
@@ -30,21 +47,39 @@
 
 <header class="header">
   <a class="header-title" href="/">Svelte EC</a>
-  <nav>
-    <ul class="header-links">
-      <li>ようこそ
-        {#await userRequest then user}
-          {#if user}
-            {user.email}さん <a href="/logout">ログアウト</a>
-          {:else}
-            ゲストさん <a href="/login">ログイン</a>
-          {/if}
-        {/await}
-      <li>
-        <a href="/cart">カート (0)</a>
-      </li>
-    </ul>
-  </nav>
+	<nav>
+		<ul>
+			<li>
+				ようこそ
+				<!-- ... -->
+			</li>
+			<li class="cart">
+				<a href="/cart" on:click|preventDefault={toggleCart}>
+					カート
+					{#if cart.length > 0}
+						({cart.length})
+					{/if}
+				</a>
+				{#if cartOpen}
+					<div class="cart-detail">
+						{#if cart.length > 0}
+							<ul>
+								{#each cart as item}
+									<li>
+										<a href="/products/{item.id}">{item.name}</a>
+										- {item.price}円
+									</li>
+								{/each}
+							</ul>
+						{:else}
+							<div>カートは空です</div>
+						{/if}
+						<a href="/cart">詳細</a>
+					</div>
+				{/if}
+			</li>
+		</ul>
+	</nav>
 </header>
 
 <article class="product">
@@ -61,7 +96,16 @@
       </dl>
       <div>
         {#if !cart.find((item) => item.id === product.id)}
-          <form method="POST">
+          <form
+            method="POST"
+            action="/cart?/add"
+            use:enhance={() => {
+              return async ({ update }) => {
+                await update();
+                await loadCart();
+              };
+            }}
+          >
             <input type="hidden" name="productId" value={product.id} />
             {#await userRequest}
               <button>カートに入れる</button>

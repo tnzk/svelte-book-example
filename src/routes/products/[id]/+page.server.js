@@ -18,11 +18,7 @@ export async function load({ params, locals }) {
 	const product = await getProductFromDatabase(productId);
 	const relatedProducts = await getRelatedProductsFromDatabase(productId);
 
-	let cart = [];
-	if (locals.currentUser) {
-		cart = await loadCartItems(locals.currentUser.userId);
-	}
-	return { product, relatedProducts, cart };
+	return { product, relatedProducts };
 }
 
 export const actions = {
